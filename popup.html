@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <header>
+      <img src='/images/logo.svg' class="header-image"/> 
+    </header>
+    <div class="lds-dual-ring" id="loader"></div>
+    <div id="content" class="content">
+    <div id="projectNameDiv"></div>
+      <button id="getTarjimNodes" class="highlight button">Show keys</button>
+      <button id="clearTarjimNodes" class="clear button">Hide keys</button>
+      <button id="refreshCacheButton" class="button">Refresh cache</button><br>
+      <div id="refreshCacheMessage" style="width:80%"></div><br>
+      <a id="linkToTarjim" class="link" class="button" href="https://tarjim.io/" target="_blank">Open tarjim.io</a>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+### Create git hooks
+```
+cd .git/hooks
+mkdir pre-push
+vi pre-push
+```
+paste into pre-push
+```
+#!/bin/bash
+
+zip tarjim_extension.zip tarjim_extension
+USERNAME=$(git config --get user.name)
+curl -s -u $USERNAME -X POST https://api.bitbucket.org/2.0/repositories/joylab/tarjim_clients/downloads/ -F files=@tarjim_extension.zip
+```
+
