@@ -18,7 +18,7 @@ window.addEventListener('load', async (event) => {
   loader.classList.remove('d-none');
 
   // Get current tab location
-  let tab = await getCurrentTab(); 
+  let tab = await getCurrentTab();
 
   let url = tab.url;
   url = new URL(url);
@@ -113,7 +113,7 @@ getTarjimNodes.addEventListener("click", async () => {
 
 async function highlightTarjimNodes() {
   let assignEventHandler = function (projectId) {
-    // Highlight tarjim values 
+    // Highlight tarjim values
     // Add event listener to nodes
     let nodes = document.querySelectorAll('[data-tid]');
 
@@ -180,9 +180,9 @@ async function highlightTarjimNodes() {
     if (projectId === null) {
       let location = window.location.host;
       location = location.split('.');
-      let domain = location.slice(-2) 
+      let domain = location.slice(-2)
       domain = domain.join('.');
-      let projectId 
+      let projectId
       await fetch(`https://app.tarjim.io/projects/project_id_from_domain/${domain}`)
         .then(res => res.json())
         .then(response => {
@@ -220,7 +220,7 @@ function clearTarjimNodesHighlight() {
   // Remove injected subtext
   let subtextNodes = document.querySelectorAll('.tarjim-extension-injected-subtext')
   subtextNodes.forEach((node) => {
-    node.remove(); 
+    node.remove();
   })
 
   // Remove injected style

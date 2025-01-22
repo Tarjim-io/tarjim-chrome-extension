@@ -4,12 +4,13 @@
   "version": "1.0",
   "manifest_version": 3,
   "permissions": [
-    "storage", 
-    "activeTab", 
-    "scripting", 
-    "webNavigation", 
+    "storage",
+    "activeTab",
+    "scripting",
+    "webNavigation",
     "tabs"
   ],
+  "host_permissions": ["https://*/*"],
   "background": {
     "service_worker": "background.js"
   },
