@@ -39,7 +39,7 @@ window.addEventListener('load', async (event) => {
       }
       else {
         //return {id: null, name: 'No tarjim project found', updateCacheEndpoint: null}
-        chrome.storage.sync.set({ projectId: null, projectName: 'No tarjim project found', updateCacheEndpoint: null});
+        chrome.storage.sync.set({ projectId: null, projectName: 'No tarjim project found, please login to Tarjim', updateCacheEndpoint: null});
       }
     })
 
