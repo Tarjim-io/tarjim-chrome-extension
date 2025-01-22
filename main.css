@@ -19,7 +19,7 @@ body {
 	border-radius: .25rem;
 	width: 80%;
 	height: 20%;
-	border: 1px solid rgb(236, 30, 73); 
+	border: 1px solid rgb(236, 30, 73);
 	text-align: center;
 	color: #4a4a4a;
 	margin: 5px;
@@ -68,6 +68,10 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#projectNameDiv {
+	text-align: center;
 }
 
 .d-none {

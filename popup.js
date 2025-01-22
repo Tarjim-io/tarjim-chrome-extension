@@ -87,7 +87,7 @@ window.addEventListener('load', async (event) => {
 
 chrome.storage.sync.get('projectName', (storage) => {
   let projectName = storage.projectName;
-  if (projectName === 'No tarjim project found') {
+  if (projectName === 'No tarjim project found, please login to Tarjim') {
     projectNameDiv.innerHTML = projectName;
     // Hide both buttons
     getTarjimNodes.style = "display: none;";
@@ -246,7 +246,7 @@ chrome.storage.sync.onChanged.addListener(() => {
 
   chrome.storage.sync.get('projectName', (storage) => {
     let projectName = storage.projectName;
-    if (projectName === 'No tarjim project found') {
+    if (projectName === 'No tarjim project found, please login to Tarjim') {
       projectNameDiv.innerHTML = projectName;
       // Hide both buttons
       getTarjimNodes.style = "display: none;";
