@@ -1,84 +1,121 @@
 body {
-	width: 250px;
-	height: 250px;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: space-evenly;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .header-image {
-	width: 200px;
-	height: auto;
-	margin-top: 10px;
+    width: 200px;
+    height: auto;
+    margin-top: 10px;
 }
 
 .button {
-	cursor: pointer;
-	background-color: #FFF;
-	border-radius: .25rem;
-	width: 80%;
-	height: 20%;
-	border: 1px solid rgb(236, 30, 73);
-	text-align: center;
-	color: #4a4a4a;
-	margin: 5px;
+    cursor: pointer;
+    background-color: #FFF;
+    border-radius: .25rem;
+    width: 80%;
+    height: 20%;
+    border: 1px solid rgb(236, 30, 73);
+    text-align: center;
+    color: #4a4a4a;
+    margin: 5px;
+}
+
+#addHostButton {
+    cursor: pointer;
+    background-color: #FFF;
+    display: block;
+    border-radius: .25rem;
+    border: 1px solid rgb(236, 30, 73);
+    text-align: center;
+    color: #4a4a4a;
+    margin: 5px;
+    padding: 5px;
 }
 
 .button:active {
-	background-color: rgb(236, 30, 73);
-	color: #FFF;
+    background-color: rgb(236, 30, 73);
+    color: #FFF;
 }
 
 a {
-	text-decoration: none;
-}
-.lds-dual-ring {
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-}
-.lds-dual-ring:after {
-  content: " ";
-  display: block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border-radius: 50%;
-  border: 6px solid rgb(236, 30, 73);
-  border-color: rgb(236, 30, 73) transparent rgb(236, 30, 73) transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
-}
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    text-decoration: none;
 }
 
-.flex-vertical-center {
+.lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
 }
+
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid rgb(236, 30, 73);
+    border-color: rgb(236, 30, 73) transparent rgb(236, 30, 73) transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.flex-vertical-center {}
 
 .content {
-	height: 100%;
-	width: 100%;
-	margin-top: 10%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    height: 100%;
+    width: 100%;
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #projectNameDiv {
-	text-align: center;
+    text-align: center;
 }
 
 .d-none {
-	display: none !important;
+    display: none !important;
 }
 
 .d-block {
-	display: block !important;
+    display: block !important;
 }
 
+#projectSelection {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#projectSelection select {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box
+}

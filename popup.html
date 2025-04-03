@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" href="main.css">
@@ -9,7 +9,6 @@
     </header>
     <div class="lds-dual-ring" id="loader"></div>
     <div id="content" class="content">
-    <div id="projectNameDiv"></div>
       <button id="getTarjimNodes" class="highlight button">Show keys</button>
       <button id="clearTarjimNodes" class="clear button">Hide keys</button>
       <button id="refreshCacheButton" class="button">Refresh cache</button><br>
@@ -18,4 +17,54 @@
     </div>
     <script src="popup.js"></script>
   </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjim.io Extension</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+
+<body>
+    <header>
+        <img src='/images/logo.svg' class="header-image" />
+    </header>
+    <div class="lds-dual-ring" id="loader"></div>
+    <!-- Open Tarjim.io Button (Shown when not logged in) -->
+
+
+    <!-- Add Host Button (Shown when project ID is not found) -->
+    <div id="addHostContainer" class="d-none">
+        <a href="https://app.tarjim.io" target="_blank" id="addHostButton">Add Host as Environment</a>
+    </div>
+    <div id="linkToTarjim" class="d-none">
+        <a href="https://app.tarjim.io" target="_blank" class="btn">Login to Tarjim.io</a>
+    </div>
+    <!-- Display Selected Project -->
+
+    <div id="content" class="content">
+
+        <!-- Project Selection Dropdown -->
+        <div id="projectSelection" class="d-none">
+            <label for="projectDropdown">Select Project:</label>
+        </div>
+
+        <div id="projectNameDiv"></div>
+
+        <button id="getTarjimNodes" class="highlight button">Show keys</button>
+        <button id="clearTarjimNodes" class="clear button">Hide keys</button>
+        <button id="refreshCacheButton" class="button">Refresh cache</button><br>
+        <div id="refreshCacheMessage" style="width:80%"></div>
+
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
 </html>
