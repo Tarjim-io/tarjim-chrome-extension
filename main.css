@@ -99,6 +99,7 @@ a {
 #projectSelection {
     margin-bottom: 10px;
     text-align: center;
+    width: 80%;
 }
 
 #projectSelection select {

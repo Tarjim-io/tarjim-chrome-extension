@@ -14,7 +14,7 @@ const currentVersion = chrome.runtime.getManifest().version;
 let projectSelection = document.getElementById("projectSelection");
 
 let base_url = 'https://app.tarjim.io';
-// let base_url = "http://localhost:8080";
+//let base_url = "http://localhost:8080";
 
 async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
@@ -28,6 +28,9 @@ async function fetchProjectData(host) {
       `${base_url}/api/v1/projects/getProjectIdFromDomain/${host}?version=${currentVersion}`
     );
     let data = await response.json();
+    console.log('base_url', `${base_url}/api/v1/projects/getProjectIdFromDomain/${host}?version=${currentVersion}`);  
+    console.log("host", host);
+
     console.log("response data", data);
 
     return data;
