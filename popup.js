@@ -14,7 +14,7 @@ const currentVersion = chrome.runtime.getManifest().version;
 let projectSelection = document.getElementById("projectSelection");
 
 let base_url = 'https://app.tarjim.io';
-//let base_url = "http://localhost:8080";
+// let base_url = "http://localhost:8080";
 
 async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
@@ -236,6 +236,7 @@ chrome.storage.sync.get("projectName", (storage) => {
     projectNameDiv.innerHTML = projectName;
     //Hide both buttons
     getTarjimNodes.style = "display: none;";
+    addKey.style = "display: none;";
     clearTarjimNodes.style = "display: none";
   } else {
     chrome.storage.sync.get("projectId", (storage) => {
@@ -270,6 +271,23 @@ getTarjimNodes.addEventListener("click", async () => {
     }
   );
 });
+
+let addKey = document.getElementById("addKey");
+
+addKey.addEventListener("click", () => {
+  chrome.storage.sync.get(["projectId"], (storage) => {
+    let projectId = storage.projectId;
+    if (!projectId) {
+      console.error("Project ID not found in storage.");
+      return;
+    }
+
+    let url = `${base_url}/translationkeys/add/${projectId}`;
+
+    chrome.tabs.create({ url: url });
+  });
+});
+
 
 async function highlightTarjimNodes(projectId, is_branch, mappingKeys, base_url) {
   is_branch = is_branch == "true" ? true : false;
@@ -391,6 +409,7 @@ chrome.storage.sync.onChanged.addListener(() => {
       // Hide both buttons
       getTarjimNodes.style = "display: none;";
       clearTarjimNodes.style = "display: none";
+      addKey.style = "display: none;";
     } else {
       chrome.storage.sync.get("projectId", (storage) => {
         projectNameDiv.innerHTML =

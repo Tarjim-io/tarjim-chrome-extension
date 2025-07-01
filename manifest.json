@@ -1,8 +1,8 @@
 {
     "name": "Tarjim",
     "description": "Get tarjim nodes and edit values",
-    "version": "1.0",
-    "manifest_version": 3,
+    "version": "1.1",
+    "manifest_version": 4,
     "permissions": [
         "storage",
         "activeTab",
@@ -10,7 +10,7 @@
         "webNavigation",
         "tabs"
     ],
-    "host_permissions": ["https://*/*"],
+    "host_permissions": ["http://*/*", "https://*/*"],
     "background": {
         "service_worker": "background.js"
     },
