@@ -106,7 +106,7 @@ window.addEventListener("load", async () => {
     projectData.result.error === "Project id not found"
   ) {
     addHostContainer.classList.remove("d-none");
-    addHostButton.innerHTML = `Add "${host}" In you Tarjim.io Environment`;
+    addHostButton.innerHTML = `Add "${host}" in your Tarjim.io Environment`;
     addHostButton.addEventListener("click", function () {});
     loader.classList.add("d-none");
     chrome.storage.sync.clear();
