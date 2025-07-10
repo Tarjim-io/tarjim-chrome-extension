@@ -282,7 +282,7 @@ addKey.addEventListener("click", () => {
       return;
     }
 
-    let url = `${base_url}/translationkeys/add/${projectId}`;
+    let url = `${base_url}/translationkeys/add/${projectId}?ext=1`;
 
     chrome.tabs.create({ url: url });
   });
