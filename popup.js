@@ -10,10 +10,9 @@ let addHostContainer = document.getElementById("addHostContainer");
 let addHostButton = document.getElementById("addHostButton");
 const currentVersion = chrome.runtime.getManifest().version;
 
-
 let projectSelection = document.getElementById("projectSelection");
 
-let base_url = 'https://app.tarjim.io';
+let base_url = "https://app.tarjim.io";
 // let base_url = "http://localhost:8080";
 
 async function getCurrentTab() {
@@ -28,7 +27,10 @@ async function fetchProjectData(host) {
       `${base_url}/api/v1/projects/getProjectIdFromDomain/${host}?version=${currentVersion}`
     );
     let data = await response.json();
-    console.log('base_url', `${base_url}/api/v1/projects/getProjectIdFromDomain/${host}?version=${currentVersion}`);  
+    console.log(
+      "base_url",
+      `${base_url}/api/v1/projects/getProjectIdFromDomain/${host}?version=${currentVersion}`
+    );
     console.log("host", host);
 
     console.log("response data", data);
@@ -57,7 +59,6 @@ function getNodesAndSendToBackend(projectId, base_url) {
     text: node.textContent.trim(),
   }));
 
-
   fetch(`${base_url}/api/v1/chrome_extension/mapping-key`, {
     method: "POST",
     body: JSON.stringify({ project_id: projectId, nodes: nodeData }),
@@ -80,7 +81,7 @@ window.addEventListener("load", async () => {
 
   let tab = await getCurrentTab();
   let url = new URL(tab.url);
-  let host = url.host; 
+  let host = url.host;
 
   let projectData = await fetchProjectData(host);
 
@@ -91,9 +92,7 @@ window.addEventListener("load", async () => {
     return;
   }
 
-  if (
-    projectData.result === "Invalid API Key"
-  ) {
+  if (projectData.result === "Invalid API Key") {
     chrome.storage.sync.clear();
     linkToTarjim.classList.remove("d-none");
     loader.classList.add("d-none");
@@ -140,7 +139,6 @@ window.addEventListener("load", async () => {
       let projectList = projectData.result.data?.projects;
       let project_id = projectData.result.data?.project_id;
       let project_name = projectData.result.data?.project_name;
-
 
       if (!projectList || !projectList.length) {
         if (project_id) {
@@ -274,7 +272,7 @@ getTarjimNodes.addEventListener("click", async () => {
 
 let addKey = document.getElementById("addKey");
 
-addKey.addEventListener("click", () => {
+addKey.addEventListener("click", (e) => {
   chrome.storage.sync.get(["projectId"], (storage) => {
     let projectId = storage.projectId;
     if (!projectId) {
@@ -284,14 +282,24 @@ addKey.addEventListener("click", () => {
 
     let url = `${base_url}/translationkeys/add/${projectId}?ext=1`;
 
-    chrome.tabs.create({ url: url });
+    e.preventDefault();
+    window.open(
+      `${url}`,
+      "extension_popup",
+      "width=600,height=700,status=no,scrollbars=yes,resizable=yes"
+    );
+    e.stopPropagation();
+    return false;
   });
 });
 
-
-async function highlightTarjimNodes(projectId, is_branch, mappingKeys, base_url) {
+async function highlightTarjimNodes(
+  projectId,
+  is_branch,
+  mappingKeys,
+  base_url
+) {
   is_branch = is_branch == "true" ? true : false;
-
 
   let nodes = document.querySelectorAll("[data-tid]");
 
@@ -323,19 +331,38 @@ async function highlightTarjimNodes(projectId, is_branch, mappingKeys, base_url)
       }
       tarjimId = mappingKeys[tarjimId]["translationkey_id"];
     }
+    // if (show_edit_btn) {
+    //   let subtextId = `tarjim-extension-subtext-id-${tarjimId}-${index}`;
+    //   let subtext = document.getElementById(subtextId);
+    //   if (!subtext) {
+    //     subtext = document.createElement("div");
+    //     subtext.innerHTML = `Edit in tarjim tid: ${tarjimId}`;
+    //     subtext.id = subtextId;
+    //     subtext.classList.add("tarjim-extension-injected-subtext");
+    //     node.parentNode.insertBefore(subtext, node.nextSibling);
+
+    //     node.style.border = "4px dashed rgb(236, 30, 73)";
+
+    //     subtext.addEventListener("click", function (e) {
+    //       e.preventDefault();
+    //       window.open(
+    //         `${base_url}/translationvalues/edit/${projectId}/${tarjimId}?ext=1`,
+    //         "extension_popup",
+    //         "width=600,height=700,status=no,scrollbars=yes,resizable=yes"
+    //       );
+    //       e.stopPropagation();
+    //       return false;
+    //     });
+    //   }
+    // }
     if (show_edit_btn) {
-      let subtextId = `tarjim-extension-subtext-id-${tarjimId}-${index}`;
-      let subtext = document.getElementById(subtextId);
-      if (!subtext) {
-        subtext = document.createElement("div");
-        subtext.innerHTML = `Edit in tarjim tid: ${tarjimId}`;
-        subtext.id = subtextId;
-        subtext.classList.add("tarjim-extension-injected-subtext");
-        node.parentNode.insertBefore(subtext, node.nextSibling);
+      node.style.border = "4px dashed rgb(236, 30, 73)";
+      node.style.display = "inline-block"; // Ensure the node is displayed inline
+      node.style.cursor = "pointer"; // Show pointer cursor on hover
 
-        node.style.borderLeft = "4px dashed rgb(236, 30, 73)";
-
-        subtext.addEventListener("click", function (e) {
+      // Prevent multiple event listeners
+      if (!node.dataset.tarjimClickAttached) {
+        node.addEventListener("click", function (e) {
           e.preventDefault();
           window.open(
             `${base_url}/translationvalues/edit/${projectId}/${tarjimId}?ext=1`,
@@ -345,6 +372,9 @@ async function highlightTarjimNodes(projectId, is_branch, mappingKeys, base_url)
           e.stopPropagation();
           return false;
         });
+
+        // Mark that the event listener has been added
+        node.dataset.tarjimClickAttached = "true";
       }
     }
   });
@@ -430,7 +460,6 @@ refreshCacheButton.addEventListener("click", async () => {
   await chrome.storage.sync.get(
     ["updateCacheEndpoint", "projectId", "is_branch"],
     async (storage) => {
-
       if (storage.is_branch == "true") {
         await fetchMappingKey(storage.projectId);
         let [tab] = await chrome.tabs.query({
