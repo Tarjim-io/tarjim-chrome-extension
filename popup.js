@@ -286,7 +286,7 @@ addKey.addEventListener("click", (e) => {
     window.open(
       `${url}`,
       "extension_popup",
-      "width=600,height=700,status=no,scrollbars=yes,resizable=yes"
+      "width=620,height=700,status=no,scrollbars=yes,resizable=yes"
     );
     e.stopPropagation();
     return false;
@@ -367,7 +367,7 @@ async function highlightTarjimNodes(
           window.open(
             `${base_url}/translationvalues/edit/${projectId}/${tarjimId}?ext=1`,
             "extension_popup",
-            "width=600,height=700,status=no,scrollbars=yes,resizable=yes"
+            "width=620,height=700,status=no,scrollbars=yes,resizable=yes"
           );
           e.stopPropagation();
           return false;
