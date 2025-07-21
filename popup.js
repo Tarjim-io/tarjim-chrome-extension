@@ -358,7 +358,56 @@ async function highlightTarjimNodes(
     if (show_edit_btn) {
       node.style.border = "4px dashed rgb(236, 30, 73)";
       node.style.display = "inline-block"; // Ensure the node is displayed inline
-      node.style.cursor = "pointer"; // Show pointer cursor on hover
+      node.style.setProperty("cursor", "pointer", "important");
+
+    // attachTooltip(node, `Edit in tarjim tid: ${tarjimId}`);
+      var text = `Edit in tarjim tid: ${tarjimId}`;
+
+     if (!document.querySelector(".tarjim-tooltip")) {
+    const tooltip = document.createElement("div");
+    tooltip.className = "tarjim-tooltip";
+    document.body.appendChild(tooltip);
+
+    // Add tooltip styles if not already added
+    const tooltipStyles = `
+      .tarjim-tooltip {
+        position: absolute;
+        background-color: #333;
+        color: #fff;
+        padding: 6px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        z-index: 9999;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+    `;
+    const styleNode = document.createElement("style");
+    styleNode.innerHTML = tooltipStyles;
+    document.head.appendChild(styleNode);
+  }
+
+  const tooltip = document.querySelector(".tarjim-tooltip");
+
+  // Attach events
+  node.addEventListener("mouseenter", (e) => {
+    tooltip.textContent = text;
+    tooltip.style.opacity = "1";
+    tooltip.style.left = e.pageX + 10 + "px";
+    tooltip.style.top = e.pageY + 10 + "px";
+  });
+
+  node.addEventListener("mousemove", (e) => {
+    tooltip.style.left = e.pageX + 10 + "px";
+    tooltip.style.top = e.pageY + 10 + "px";
+  });
+
+  node.addEventListener("mouseleave", () => {
+    tooltip.style.opacity = "0";
+  });
+
 
       // Prevent multiple event listeners
       if (!node.dataset.tarjimClickAttached) {
@@ -381,6 +430,8 @@ async function highlightTarjimNodes(
 
   chrome.storage.sync.set({ nodesHighlighted: true });
 }
+
+
 
 let clearTarjimNodes = document.getElementById("clearTarjimNodes");
 
@@ -477,19 +528,24 @@ refreshCacheButton.addEventListener("click", async () => {
         await fetch(storage.updateCacheEndpoint)
           .then((res) => res.json())
           .then((response) => {
-            if (response.status === "success") {
+            if (
+              response.status === "success" ||
+              response.result.status === "success"
+            ) {
               refreshCacheMessage.innerHTML =
                 "Cache updated, refresh the page to see the changes";
             } else {
               refreshCacheMessage.innerHTML =
-                "Cache update failed, check the update cache url in tarjim environments";
+                "Cache update failed, check the update cache url in tarjim environments:" +
+                storage.updateCacheEndpoint;
             }
             content.classList.remove("d-none");
             loader.classList.add("d-none");
           })
           .catch((err) => {
             refreshCacheMessage.innerHTML =
-              "Cache update failed, check the update cache url in tarjim environments";
+              "Cache update failed, check the update cache url in tarjim environments" +
+              storage.updateCacheEndpoint;
             content.classList.remove("d-none");
             loader.classList.add("d-none");
           });
