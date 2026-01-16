@@ -323,10 +323,12 @@ async function highlightTarjimNodes(
   nodes.forEach((node, index) => {
     let tarjimId = node.getAttribute("data-tid");
     let show_edit_btn = true;
-    if (is_branch && !mappingKeys[tarjimId]) {
+    if (is_branch && mappingKeys && !mappingKeys[tarjimId]) {
+      console.log("No mapping key found for tid:", tarjimId);
       show_edit_btn = false;
     }
-    if (is_branch && mappingKeys[tarjimId]) {
+    if (is_branch && mappingKeys && mappingKeys[tarjimId]) {
+      console.log("Mapping key found for tid:", tarjimId);
       node.dataset.originalText = node.textContent;
       if (mappingKeys[tarjimId]?.value) {
         node.textContent = mappingKeys[tarjimId]?.value;
@@ -335,6 +337,7 @@ async function highlightTarjimNodes(
       }
       tarjimId = mappingKeys[tarjimId]["translationkey_id"];
     }
+    console.log("show_edit_btn", show_edit_btn);
     // if (show_edit_btn) {
     //   let subtextId = `tarjim-extension-subtext-id-${tarjimId}-${index}`;
     //   let subtext = document.getElementById(subtextId);
