@@ -42,16 +42,16 @@ async function fetchProjectData(host) {
   }
 }
 
-async function fetchMappingKey(projectId) {
+async function fetchMappingKey(projectId, apikey = null) {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     function: getNodesAndSendToBackend,
-    args: [projectId, base_url],
+    args: [projectId, base_url, apikey],
   });
 }
 
-function getNodesAndSendToBackend(projectId, base_url) {
+function getNodesAndSendToBackend(projectId, base_url, apikey) {
   let nodes = document.querySelectorAll("[data-tid]");
 
   let nodeData = Array.from(nodes).map((node) => ({
@@ -59,7 +59,7 @@ function getNodesAndSendToBackend(projectId, base_url) {
     text: node.textContent.trim(),
   }));
 
-  fetch(`${base_url}/api/v1/chrome_extension/mapping-key`, {
+  fetch(`${base_url}/api/v1/chrome_extension/mapping-key?apikey=${apikey}`, {
     method: "POST",
     body: JSON.stringify({ project_id: projectId, nodes: nodeData }),
   })
@@ -138,6 +138,7 @@ window.addEventListener("load", async () => {
       let update_cache_url = projectData.result.data.update_cache_url;
       let projectList = projectData.result.data?.projects;
       let project_id = projectData.result.data?.project_id;
+      let apikey = projectData.result.data?.apikey;
       let project_name = projectData.result.data?.project_name;
 
       if (!projectList || !projectList.length) {
@@ -148,6 +149,7 @@ window.addEventListener("load", async () => {
             updateCacheEndpoint: update_cache_url,
             is_branch: "false",
             mappingKeys: null,
+            apikey: apikey
           });
           content.classList.remove("d-none");
         }
@@ -178,6 +180,7 @@ window.addEventListener("load", async () => {
           updateCacheEndpoint: update_cache_url,
           is_branch: "false",
           mappingKeys: null,
+          apikey: apikey
         });
         selectProjectDropdown.value = firstProject.id; // Select first project
       }
@@ -205,10 +208,11 @@ window.addEventListener("load", async () => {
           is_branch:
             selectedProject.project_parent_id != "0" ? "true" : "false",
           mappingKeys: null,
+          apikey: apikey
         });
 
         if (selectedProject.project_parent_id) {
-          await fetchMappingKey(selectedProject.id);
+          await fetchMappingKey(selectedProject.id, );
         }
       });
 
@@ -509,10 +513,10 @@ refreshCacheButton.addEventListener("click", async () => {
 
   var updateEndpoint;
   await chrome.storage.sync.get(
-    ["updateCacheEndpoint", "projectId", "is_branch"],
+    ["updateCacheEndpoint", "projectId", "is_branch", "apikey"],
     async (storage) => {
       if (storage.is_branch == "true") {
-        await fetchMappingKey(storage.projectId);
+        await fetchMappingKey(storage.projectId, storage.apikey);
         let [tab] = await chrome.tabs.query({
           active: true,
           currentWindow: true,
